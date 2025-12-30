@@ -767,6 +767,16 @@ document.addEventListener('keydown', event => {
     }
 });
 
+// Get username from URL parameter
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userName = urlParams.get('user');
+    if (userName) {
+        document.getElementById('playerName').value = userName;
+        playerName = userName;
+    }
+});
+
 // Start Screen Enter Key
 document.getElementById('playerName').addEventListener('keydown', event => {
     if (event.key === 'Enter') {
