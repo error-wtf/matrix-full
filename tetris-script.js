@@ -672,7 +672,17 @@ function showVictory() {
     gameOver = true;
     gameStarted = false;
     alert('🎉 CONGRATULATIONS! 🎉\n\nYou completed all 1000 levels!\nFinal Score: ' + score + '\n\nClick OK to return to chat.');
-    window.location.href = 'index.html';
+    returnToChat();
+}
+
+function returnToChat() {
+    // Send message to parent window to close overlay
+    if (window.parent !== window) {
+        window.parent.postMessage('closeTetris', '*');
+    } else {
+        // Fallback if not in iframe
+        window.location.href = 'index.html';
+    }
 }
 
 function startGame() {

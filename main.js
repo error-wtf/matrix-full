@@ -91,6 +91,16 @@ window.addEventListener('load', () => {
     }
 });
 
+// Listen for messages from Tetris iframe
+window.addEventListener('message', (event) => {
+    if (event.data === 'closeTetris') {
+        const overlay = document.getElementById('tetrisOverlay');
+        const iframe = document.getElementById('tetrisFrame');
+        overlay.style.display = 'none';
+        iframe.src = ''; // Clear iframe
+    }
+});
+
 // Terminal Commands
 const commands = {
     help: 'Available commands: help, clear, rain, quote, hack, talk <character>, date, whoami, echo <text>, tetris, exit',
@@ -219,10 +229,11 @@ function handleCommand(input) {
     // Tetris
     if (cmd === 'tetris') {
         printLine('Loading Tetris...', 'output-line');
-        // Navigate to Tetris in same tab with username
-        setTimeout(() => {
-            window.location.href = `tetris.html?user=${encodeURIComponent(username)}`;
-        }, 500);
+        // Open Tetris in overlay iframe
+        const overlay = document.getElementById('tetrisOverlay');
+        const iframe = document.getElementById('tetrisFrame');
+        iframe.src = `tetris.html?user=${encodeURIComponent(username)}`;
+        overlay.style.display = 'block';
         return;
     }
     
