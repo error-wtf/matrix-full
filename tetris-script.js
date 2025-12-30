@@ -18,7 +18,7 @@ const nextCtx = nextCanvas.getContext('2d');
 // Game Constants
 const COLS = 10;
 const ROWS = 20;
-const BLOCK_SIZE = 28;  // Reduced from 35 to 28 for smaller canvas
+const BLOCK_SIZE = 25;  // Reduced to 25 for compact iframe embedding
 const LINES_PER_LEVEL = 10;
 const MAX_LEVEL = 1000;
 
