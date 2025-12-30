@@ -236,35 +236,92 @@ function handleCommand(input) {
     printLine('Type "help" for available commands', 'output-line');
 }
 
-// Quote function
+// Quote function (from original matrixshell-web)
+const quotes = [
+    "There is no spoon.",
+    "You take the red pill — you stay in Wonderland.",
+    "I know kung fu.",
+    "Welcome to the real world.",
+    "Unfortunately, no one can be told what the Matrix is. You have to see it for yourself.",
+    "Welcome to the desert of the real.",
+    "I can only show you the door. You're the one that has to walk through it.",
+    "Fate, it seems, is not without a sense of irony.",
+    "Neo, sooner or later you're going to realize just as I did that there's a difference between knowing the path and walking the path.",
+    "I'm trying to free your mind, Neo. But I can only show you the truth.",
+    "Don't think you are. Know you are.",
+    "To deny our own impulses is to deny the very thing that makes us human.",
+    "Never send a human to do a machine's job.",
+    "Hope. It is the quintessential human delusion, simultaneously the source of your greatest strength and your greatest weakness.",
+    "The Matrix is a system, Neo. That system is our enemy.",
+    "Choice is an illusion created between those with power and those without.",
+    "Free your mind.",
+    "He's beginning to believe!",
+    "Follow the white rabbit!",
+    "The Matrix has you Neo."
+];
+
 function showQuote() {
-    const quotes = [
-        '"There is no spoon." - Neo',
-        '"What is real?" - Morpheus',
-        '"Free your mind." - Morpheus',
-        '"I know kung fu." - Neo',
-        '"Welcome to the real world." - Morpheus',
-        '"The Matrix has you..." - Trinity',
-        '"You take the red pill..." - Morpheus',
-        '"Never send a human to do a machine\'s job." - Agent Smith'
-    ];
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
-    printLine(quote, 'output-line');
+    const index = Math.floor(Math.random() * quotes.length);
+    printLine(quotes[index], 'output-line');
 }
 
-// Hack simulation
+// Hack simulation (from original matrixshell-web)
 function hackMatrix() {
-    const targets = ['mainframe', 'database', 'firewall', 'encryption', 'security'];
-    const target = targets[Math.floor(Math.random() * targets.length)];
+    const messages = [
+        "[ACCESSING MAINFRAME...]",
+        "[ENCRYPTION BYPASS INITIATED...]",
+        "[CRYPTO-BARRIER BREACHED]",
+        "[LOGGING IN AS ROOT...]",
+        "[KEYSTREAM ALIGNMENT: OK]",
+        "[TRACING SOURCE... REDIRECTED]",
+        "[KERNEL PATCH ACCEPTED]",
+        "[DATA LINK ESTABLISHED]",
+        "[TRINITY: 'I'm inside.']",
+        "[DOWNLOADING MATRIX CORE...]",
+        "[MISSION COMPLETE. MATRIX DESTABILIZED]"
+    ];
     
-    printLine(`Initiating hack on ${target}...`, 'output-line');
-    setTimeout(() => printLine('Scanning ports...', 'output-line'), 500);
-    setTimeout(() => printLine('Bypassing security...', 'output-line'), 1000);
-    setTimeout(() => printLine('Decrypting data...', 'output-line'), 1500);
-    setTimeout(() => printLine('Access granted!', 'output-line'), 2000);
+    let stage = 0;
+    let percent = 0;
+    printLine('[HACKING MATRIX...]', 'output-line');
+    
+    const showProgress = () => {
+        if (percent >= 100) {
+            clearInterval(progressInterval);
+            printLine('[UPLOADING COMPLETE]', 'output-line');
+            printLine('[ACCESS GRANTED]', 'output-line');
+            return;
+        }
+        percent += Math.floor(Math.random() * 20) + 5;
+        if (percent > 100) percent = 100;
+        const bars = Math.floor(percent / 10);
+        printLine(`[UPLOADING VIRUS ${"#".repeat(bars)}${" ".repeat(10 - bars)}] ${percent}%`, 'output-line');
+    };
+    
+    const initialInterval = setInterval(() => {
+        if (stage < messages.length) {
+            printLine(messages[stage++], 'output-line');
+        } else {
+            clearInterval(initialInterval);
+            progressInterval = setInterval(showProgress, 400);
+        }
+    }, 500);
+    
+    let progressInterval;
 }
 
-// Talk system
+// Talk system (from original matrixshell-web with dialog trees)
+let talkDB = {};
+let currentTalkNode = null;
+let currentTalkTree = null;
+
+// Load talk databases
+fetch('src/talk_db_neo.json').then(r => r.json()).then(d => talkDB.neo = d);
+fetch('src/talk_db_trinity.json').then(r => r.json()).then(d => talkDB.trinity = d);
+fetch('src/talk_db_morpheus.json').then(r => r.json()).then(d => talkDB.morpheus = d);
+fetch('src/talk_db_smith.json').then(r => r.json()).then(d => talkDB.smith = d);
+fetch('src/talk_db_orakel.json').then(r => r.json()).then(d => talkDB.oracle = d);
+
 function startTalk(character) {
     const validChars = ['neo', 'trinity', 'morpheus', 'smith', 'oracle'];
     if (!validChars.includes(character)) {
@@ -273,55 +330,62 @@ function startTalk(character) {
         return;
     }
     
+    const tree = talkDB[character];
+    if (!tree) {
+        printLine(`Loading ${character}'s dialog... Try again in a moment.`, 'output-line');
+        return;
+    }
+    
     talkMode = character;
+    currentTalkTree = tree;
+    currentTalkNode = Object.keys(tree)[0];
+    
     printLine(`Connecting to ${character}...`, 'output-line');
-    printLine(`Type your message (or "bye" to exit)`, 'output-line');
     printLine('', 'output-line');
+    
+    showTalkNode();
 }
 
-function handleTalkInput(input) {
-    if (input.toLowerCase() === 'bye') {
-        printLine(`${talkMode}: Goodbye.`, 'output-line');
+function showTalkNode() {
+    const node = currentTalkTree[currentTalkNode];
+    if (!node) {
+        printLine('…end of dialog.', 'output-line');
         talkMode = null;
         return;
     }
     
-    printLine(`You: ${input}`, 'output-line');
+    printLine(`${node.speaker}: ${node.text}`, 'output-line');
     
-    // Simple responses
-    const responses = {
-        neo: [
-            "I know what you're trying to do.",
-            "There is no spoon.",
-            "I can dodge bullets now.",
-            "The Matrix isn't real."
-        ],
-        trinity: [
-            "I can help you.",
-            "Trust me.",
-            "We need to move fast.",
-            "The agents are coming."
-        ],
-        morpheus: [
-            "What is real?",
-            "Free your mind.",
-            "I can only show you the door.",
-            "There's a difference between knowing the path..."
-        ],
-        smith: [
-            "Mr. Anderson...",
-            "It's inevitable.",
-            "Never send a human to do a machine's job.",
-            "I'm going to enjoy watching you die."
-        ],
-        oracle: [
-            "You already know the answer.",
-            "Would you still have broken it if I hadn't said anything?",
-            "You're cuter than I thought.",
-            "Everything that has a beginning has an end."
-        ]
-    };
+    const opts = node.options || {};
+    const keys = Object.keys(opts);
     
-    const response = responses[talkMode][Math.floor(Math.random() * responses[talkMode].length)];
-    setTimeout(() => printLine(`${talkMode}: ${response}`, 'output-line'), 500);
+    if (keys.length === 0) {
+        printLine('Conversation ended. (type help for other commands)', 'output-line');
+        talkMode = null;
+        return;
+    }
+    
+    for (let k of keys) {
+        printLine(`  [${k}] ${opts[k].text}`, 'output-line');
+    }
+}
+
+function handleTalkInput(input) {
+    const node = currentTalkTree[currentTalkNode];
+    const opts = node.options || {};
+    const choice = input.trim();
+    const opt = opts[choice];
+    
+    if (!opt) {
+        printLine('Invalid choice—please select one of the numbers above.', 'error-line');
+        return;
+    }
+    
+    if (opt.next === null) {
+        printLine('Conversation ended. (type help for other commands)', 'output-line');
+        talkMode = null;
+    } else {
+        currentTalkNode = opt.next;
+        showTalkNode();
+    }
 }
