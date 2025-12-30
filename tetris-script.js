@@ -762,12 +762,16 @@ document.addEventListener('keydown', event => {
     if (gameOver) return;
     
     if (event.key === 'ArrowLeft') {
+        event.preventDefault();
         playerMove(-1);
     } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
         playerMove(1);
     } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
         playerDrop();
     } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
         playerRotate(1);
     } else if (event.key === ' ') {
         event.preventDefault();
