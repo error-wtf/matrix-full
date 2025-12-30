@@ -219,8 +219,10 @@ function handleCommand(input) {
     // Tetris
     if (cmd === 'tetris') {
         printLine('Loading Tetris...', 'output-line');
-        // Pass username to tetris
-        window.open(`tetris.html?user=${encodeURIComponent(username)}`, '_blank');
+        // Navigate to Tetris in same tab with username
+        setTimeout(() => {
+            window.location.href = `tetris.html?user=${encodeURIComponent(username)}`;
+        }, 500);
         return;
     }
     

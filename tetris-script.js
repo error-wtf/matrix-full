@@ -672,7 +672,7 @@ function showVictory() {
     gameOver = true;
     gameStarted = false;
     alert('🎉 CONGRATULATIONS! 🎉\n\nYou completed all 1000 levels!\nFinal Score: ' + score + '\n\nClick OK to return to chat.');
-    window.close();
+    window.location.href = 'index.html';
 }
 
 function startGame() {
