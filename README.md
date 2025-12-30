@@ -1,6 +1,7 @@
 # MatrixShell Web
 
-Test it here : https://error-wtf.github.io/matrixshell-web/
+Test it here : https://error-wtf.github.io/matrix-full/
+
 
 A web-based Matrix-themed command shell with interactive dialogs. Run commands to see Matrix rain, quotes, hack simulations, and multi-character conversations.
 
