@@ -1,21 +1,41 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Matrix Terminal Simulator</title>
-  <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Terminal + Tetris</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-  <!-- Canvas für Matrix-Regen -->
-  <canvas id="vmCanvas"></canvas>
+    <!-- Matrix Rain Background -->
+    <canvas id="matrixCanvas"></canvas>
+    
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <h1 class="matrix-title">MATRIX TERMINAL</h1>
+        <div class="login-form">
+            <input type="text" id="usernameInput" placeholder="Enter your name..." maxlength="20" autocomplete="off" autofocus>
+            <button onclick="login()">CONNECT</button>
+        </div>
+    </div>
 
-  <!-- Terminal-Shell -->
-  <div id="terminal">
-    <div id="shell"></div>
-    <input id="cmd" type="text" autocomplete="off" autofocus placeholder="$" />
-  </div>
+    <!-- Terminal Container -->
+    <div id="terminal" class="terminal" style="display: none;">
+        <div class="terminal-header">
+            <span class="terminal-title">MATRIX TERMINAL v2.0</span>
+            <div class="terminal-buttons">
+                <span class="btn-close" onclick="logout()">×</span>
+                <span class="btn-minimize">−</span>
+                <span class="btn-maximize">□</span>
+            </div>
+        </div>
+        <div id="output" class="terminal-output"></div>
+        <div class="terminal-input-line">
+            <span class="prompt" id="prompt">guest@matrix:~$</span>
+            <input type="text" id="commandInput" class="terminal-input" autocomplete="off">
+        </div>
+    </div>
 
-  <!-- Dein gebündeltes JS -->
-  <script src="dist/index.bundle.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
