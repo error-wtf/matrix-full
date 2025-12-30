@@ -50,7 +50,6 @@ const promptEl = document.getElementById('prompt');
 
 let username = 'guest';
 let talkMode = null;
-let talkDB = null;
 
 // Login
 function login() {

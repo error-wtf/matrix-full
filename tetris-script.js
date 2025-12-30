@@ -767,13 +767,19 @@ document.addEventListener('keydown', event => {
     }
 });
 
-// Get username from URL parameter
+// Get username from URL parameter and auto-start game
 window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userName = urlParams.get('user');
     if (userName) {
-        document.getElementById('playerName').value = userName;
         playerName = userName;
+        // Auto-start game without showing start screen
+        setTimeout(() => {
+            startGame();
+        }, 100);
+    } else {
+        // Show start screen if no username provided
+        document.getElementById('startScreen').style.display = 'flex';
     }
 });
 

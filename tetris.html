@@ -9,8 +9,8 @@
 <body>
     <canvas id="matrixCanvas"></canvas>
     
-    <!-- Start Screen -->
-    <div id="startScreen" class="start-screen">
+    <!-- Start Screen (auto-skip if username provided) -->
+    <div id="startScreen" class="start-screen" style="display: none;">
         <h1 class="matrix-title">MATRIX TETRIS</h1>
         <div class="start-form">
             <input type="text" id="playerName" placeholder="Enter your name..." maxlength="20" autocomplete="off">
