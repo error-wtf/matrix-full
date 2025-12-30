@@ -677,7 +677,10 @@ function showVictory() {
 
 function startGame() {
     const nameInput = document.getElementById('playerName');
-    playerName = nameInput.value.trim() || 'Anonymous';
+    // Only read from input if playerName not already set (from URL parameter)
+    if (!playerName || playerName === '') {
+        playerName = nameInput.value.trim() || 'Anonymous';
+    }
     
     console.log('=== GAME START ===');
     console.log('Canvas element:', canvas);
